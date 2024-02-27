@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:app_lista1/ComprasController.dart';
-import 'package:app_lista1/ComprasView.dart';
 import 'package:provider/provider.dart';
+import 'ComprasView.dart';
+import 'ComprasController.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: ListaComprasScreen(),
+        home: ComprasView(), 
       ),
     );
   }
