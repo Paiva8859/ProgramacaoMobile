@@ -249,12 +249,27 @@ class _ComprasViewState extends State<ComprasView> {
 
     final controller = Provider.of<ComprasController>(context, listen: false);
 
-    controller.adicionarItem(nome, quantidade, preco, categoria);
+    // Verificar se já existe um item com o mesmo nome
+    bool nomeExistente = controller.itens.any((item) => item.nome == nome);
 
-    _nomeController.clear();
-    _quantidadeController.clear();
-    _precoController.clear();
-    _categoriaController.clear();
+    if (nomeExistente) {
+      // Mostrar mensagem de erro se o nome já existir
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Um item com o mesmo nome já existe.'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    } else {
+      // Adicionar o novo item se o nome for único
+      controller.adicionarItem(nome, quantidade, preco, categoria);
+
+      // Limpar os controladores após a adição do item
+      _nomeController.clear();
+      _quantidadeController.clear();
+      _precoController.clear();
+      _categoriaController.clear();
+    }
   }
 
   // Editar item na lista
