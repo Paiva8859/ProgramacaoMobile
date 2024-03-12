@@ -45,15 +45,11 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: [
           IconButton(
             icon: Icon(Icons.search),
-            onPressed: () {
-              // Implemente a funcionalidade de busca aqui
-            },
+            onPressed: () {},
           ),
           IconButton(
             icon: Icon(Icons.more_vert),
-            onPressed: () {
-              // Implemente outras funcionalidades aqui
-            },
+            onPressed: () {},
           ),
         ],
       ),
@@ -81,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class Section extends StatelessWidget {
+class Section extends StatelessWidget {  
   final String title;
 
   const Section({Key? key, required this.title}) : super(key: key);
