@@ -31,14 +31,13 @@ class DatabaseHelper {
   }
 
   Future<int> insertUser(User user) async {
-    // Certifique-se de esperar a inicialização do banco de dados
     await initDb();
     final dbClient = _db;
     return await dbClient.insert('users', user.toMap());
   }
 
   Future<User?> getUser(String username, String password) async {
-    // Certifique-se de esperar a inicialização do banco de dados
+    
     await initDb();
     final dbClient = _db;
     final List<Map<String, dynamic>> maps = await dbClient.query(
