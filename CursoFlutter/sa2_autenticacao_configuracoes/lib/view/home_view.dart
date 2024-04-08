@@ -4,6 +4,10 @@ import 'package:sa2_autenticacao_configuracoes/view/login_view.dart';
 import 'package:sa2_autenticacao_configuracoes/utils/settings_manager.dart';
 
 class HomeView extends StatefulWidget {
+  final String username;
+
+  HomeView({required this.username});
+
   @override
   _HomeViewState createState() => _HomeViewState();
 }
@@ -23,14 +27,14 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Future<void> _loadPreferences() async {
-    _darkMode = await _settingsManager.getTheme() == 'dark';
-    _fontSize = await _settingsManager.getFontSize() ?? 16.0;
+    _darkMode = (await _settingsManager.getTheme(widget.username)) == 'dark';
+    _fontSize = (await _settingsManager.getFontSize(widget.username)) ?? 16.0;
     setState(() {});
   }
 
   void _toggleDarkMode() async {
     _darkMode = !_darkMode;
-    await _settingsManager.saveTheme(_darkMode ? 'dark' : 'light');
+    await _settingsManager.saveTheme(widget.username, _darkMode ? 'dark' : 'light');
     setState(() {});
   }
 
@@ -38,14 +42,14 @@ class _HomeViewState extends State<HomeView> {
     setState(() {
       _fontSize += 1.0;
     });
-    await _settingsManager.saveFontSize(_fontSize);
+    await _settingsManager.saveFontSize(widget.username, _fontSize.toString());
   }
 
   void _decreaseFontSize() async {
     setState(() {
       _fontSize -= 1.0;
     });
-    await _settingsManager.saveFontSize(_fontSize);
+    await _settingsManager.saveFontSize(widget.username, _fontSize.toString());
   }
 
   void _logout() {
@@ -58,7 +62,7 @@ class _HomeViewState extends State<HomeView> {
 
   Future<void> _deleteUser() async {
     try {
-      final result = await _databaseHelper.deleteUser('username');
+      final result = await _databaseHelper.deleteUser(widget.username);
       if (result > 0) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
