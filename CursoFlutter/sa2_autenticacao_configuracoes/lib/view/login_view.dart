@@ -33,7 +33,7 @@ class LoginView extends StatelessWidget {
                 if (user != null) {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => HomeView()),
+                    MaterialPageRoute(builder: (context) => HomeView(username: username,)),
                   );
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(

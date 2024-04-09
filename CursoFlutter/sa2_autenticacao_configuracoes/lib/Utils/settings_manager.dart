@@ -1,26 +1,26 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsManager {
-  static const _keyTheme = 'theme';
-  static const _keyFontSize = 'font_size';
+  static const _keyThemePrefix = 'theme_';
+  static const _keyFontSizePrefix = 'font_size_';
 
-  Future<void> saveTheme(String theme) async {
+  Future<void> saveTheme(String username, String theme) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_keyTheme, theme);
+    await prefs.setString(_keyThemePrefix + username, theme);
   }
 
-  Future<String?> getTheme() async {
+  Future<String?> getTheme(String username) async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_keyTheme);
+    return prefs.getString(_keyThemePrefix + username);
   }
 
-  Future<void> saveFontSize(double fontSize) async {
+  Future<void> saveFontSize(String username, double fontSize) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setDouble(_keyFontSize, fontSize);
+    await prefs.setDouble(_keyFontSizePrefix + username, fontSize);
   }
 
-  Future<double?> getFontSize() async {
+  Future<double?> getFontSize(String username) async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getDouble(_keyFontSize);
+    return prefs.getDouble(_keyFontSizePrefix + username);
   }
 }

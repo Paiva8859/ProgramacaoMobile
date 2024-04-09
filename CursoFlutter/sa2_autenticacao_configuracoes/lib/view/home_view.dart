@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sa2_autenticacao_configuracoes/Utils/database_helper.dart';
-import 'package:sa2_autenticacao_configuracoes/view/login_view.dart';
-import 'package:sa2_autenticacao_configuracoes/utils/settings_manager.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+import 'login_view.dart';
+import '../Utils/database_helper.dart';
+import '../Utils/settings_manager.dart';
 
 class HomeView extends StatefulWidget {
   final String username;
@@ -13,43 +15,61 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  late bool _darkMode = false;
+  late double _fontSize = 16.0;
   late DatabaseHelper _databaseHelper;
   late SettingsManager _settingsManager;
-  bool _darkMode = false;
-  double _fontSize = 16.0;
 
   @override
   void initState() {
     super.initState();
-    _databaseHelper = DatabaseHelper();
+    _initDatabase();
     _settingsManager = SettingsManager();
     _loadPreferences();
   }
 
+  Future<void> _initDatabase() async {
+    _databaseHelper = DatabaseHelper();
+    await _databaseHelper.initDb();
+  }
+
   Future<void> _loadPreferences() async {
-    _darkMode = (await _settingsManager.getTheme(widget.username)) == 'dark';
-    _fontSize = (await _settingsManager.getFontSize(widget.username)) ?? 16.0;
-    setState(() {});
+    _darkMode = (await _settingsManager.getTheme(widget.username) ?? 'light') == 'dark';
+    _fontSize = (await _settingsManager.getFontSize(widget.username) ?? 16.0);
+    _updateTheme(); // Atualize o tema ao carregar as preferências
   }
 
   void _toggleDarkMode() async {
-    _darkMode = !_darkMode;
+    setState(() {
+      _darkMode = !_darkMode;
+    });
     await _settingsManager.saveTheme(widget.username, _darkMode ? 'dark' : 'light');
-    setState(() {});
+    _updateTheme();
+  }
+
+  void _updateTheme() {
+    final brightness = _darkMode ? Brightness.dark : Brightness.light;
+    final themeData = ThemeData(
+      brightness: brightness,
+    );
+    setState(() {
+      // Remova Theme.of(context)
+      // Envolve Scaffold com Theme
+    });
   }
 
   void _increaseFontSize() async {
     setState(() {
       _fontSize += 1.0;
     });
-    await _settingsManager.saveFontSize(widget.username, _fontSize.toString());
+    await _settingsManager.saveFontSize(widget.username, _fontSize);
   }
 
   void _decreaseFontSize() async {
     setState(() {
       _fontSize -= 1.0;
     });
-    await _settingsManager.saveFontSize(widget.username, _fontSize.toString());
+    await _settingsManager.saveFontSize(widget.username, _fontSize);
   }
 
   void _logout() {
@@ -62,26 +82,27 @@ class _HomeViewState extends State<HomeView> {
 
   Future<void> _deleteUser() async {
     try {
-      final result = await _databaseHelper.deleteUser(widget.username);
-      if (result > 0) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Usuário excluído com sucesso'),
-            duration: Duration(seconds: 2),
-          ),
-        );
-        Future.delayed(Duration(seconds: 2), () {
-          _logout();
-        });
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Nenhum usuário encontrado para excluir.'),
-          ),
-        );
+      await _databaseHelper.deleteUser(widget.username);
+
+      final directory = await getApplicationDocumentsDirectory();
+      final file = File('${directory.path}/authentication.db');
+      if (await file.exists()) {
+        await file.delete();
       }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Usuário excluído com sucesso'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+
+      Future.delayed(Duration(seconds: 2), () {
+        _logout();
+      });
     } catch (e) {
       print('Erro ao excluir usuário: $e');
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Erro ao excluir usuário. Tente novamente.'),
@@ -92,16 +113,16 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: _darkMode ? ThemeData.dark() : ThemeData.light(),
-      home: Scaffold(
+    return Theme(
+      data: _darkMode ? ThemeData.dark() : ThemeData.light(),
+      child: Scaffold(
         appBar: AppBar(title: Text('Home')),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Bem-vindo à tela inicial!',
+                'Bem-vindo à tela inicial, ${widget.username}!',
                 style: TextStyle(fontSize: _fontSize),
               ),
               SizedBox(height: 20),
