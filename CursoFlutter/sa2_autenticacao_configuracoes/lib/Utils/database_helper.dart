@@ -21,7 +21,7 @@ class DatabaseHelper {
       version: 1,
       onCreate: (Database db, int version) async {
         await db.execute('''
-          CREATE TABLE users(
+          CREATE TABLE if not exists users(
             username TEXT PRIMARY KEY,
             password TEXT
           )

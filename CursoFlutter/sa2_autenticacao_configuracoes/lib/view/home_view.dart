@@ -53,8 +53,6 @@ class _HomeViewState extends State<HomeView> {
       brightness: brightness,
     );
     setState(() {
-      // Remova Theme.of(context)
-      // Envolve Scaffold com Theme
     });
   }
 
@@ -116,6 +114,7 @@ class _HomeViewState extends State<HomeView> {
     return Theme(
       data: _darkMode ? ThemeData.dark() : ThemeData.light(),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(title: Text('Home')),
         body: Center(
           child: Column(
@@ -129,24 +128,56 @@ class _HomeViewState extends State<HomeView> {
               ElevatedButton(
                 onPressed: _toggleDarkMode,
                 child: Text(_darkMode ? 'Modo Claro' : 'Modo Escuro'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: _darkMode ? Colors.blueGrey : Colors.blue,
+                  textStyle: TextStyle(fontSize: 16),
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                ),
               ),
-              ElevatedButton(
-                onPressed: _increaseFontSize,
-                child: Text('Aumentar Fonte'),
-              ),
-              ElevatedButton(
-                onPressed: _decreaseFontSize,
-                child: Text('Diminuir Fonte'),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: _decreaseFontSize,
+                    child: Icon(Icons.remove),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      padding: EdgeInsets.all(10),
+                      shape: CircleBorder(),
+                    ),
+                  ),
+                  SizedBox(width: 20),
+                  ElevatedButton(
+                    onPressed: _increaseFontSize,
+                    child: Icon(Icons.add),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      padding: EdgeInsets.all(10),
+                      shape: CircleBorder(),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _deleteUser,
                 child: Text('Excluir Usuário'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  textStyle: TextStyle(fontSize: 16),
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                ),
               ),
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _logout,
                 child: Text('Sair'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.grey,
+                  textStyle: TextStyle(fontSize: 16),
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                ),
               ),
             ],
           ),
