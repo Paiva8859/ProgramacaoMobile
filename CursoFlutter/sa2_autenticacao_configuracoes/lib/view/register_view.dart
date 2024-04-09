@@ -56,7 +56,7 @@ class RegisterView extends StatelessWidget {
                   Navigator.pop(context);
                 }
               },
-              child: Text('Register'),
+              child: Text('Registrar'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
                 textStyle: TextStyle(fontSize: 16),
