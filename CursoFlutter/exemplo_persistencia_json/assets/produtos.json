@@ -1,0 +1,17 @@
+[
+    {
+        "nome": "CPU",
+        "preco": 599.99,
+        "categoria": "informatica"
+    },
+    {
+        "nome": "Camiseta Java",
+        "preco": 59.90,
+        "categoria": "Vestuário"
+    },
+    {
+        "nome": "Mouse",
+        "preco": 25.99,
+        "categoria": "informatica"
+    }
+]
