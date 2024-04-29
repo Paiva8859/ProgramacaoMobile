@@ -49,6 +49,7 @@ class _HomeViewState extends State<HomeView> {
 
   void _updateTheme() {
     final brightness = _darkMode ? Brightness.dark : Brightness.light;
+    // ignore: unused_local_variable
     final themeData = ThemeData(
       brightness: brightness,
     );
