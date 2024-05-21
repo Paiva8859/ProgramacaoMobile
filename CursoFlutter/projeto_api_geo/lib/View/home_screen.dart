@@ -53,11 +53,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
-                    onPressed: (){}, 
+                    onPressed: (){Navigator.pushNamed(context,'/favorites');}, 
                     child: const Text("Favorites")),
                   const SizedBox(width: 20),
                   ElevatedButton(
-                    onPressed: (){}, 
+                    onPressed: (){Navigator.pushNamed(context,'/search');}, 
                     child: const Text("Localization"))
                 ],
               ),
