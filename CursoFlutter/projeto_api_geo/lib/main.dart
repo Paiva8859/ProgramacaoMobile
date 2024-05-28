@@ -21,8 +21,6 @@ class MyApp extends StatelessWidget {
         '/home': (context) => HomeScreen(),
         '/favorites': (context) => FavoritesScreen(),
         '/search': (context) => SearchScreen(),
-        '/detais': (context) => WeatherDetailsScreen()
-        
       }
     );
   }
