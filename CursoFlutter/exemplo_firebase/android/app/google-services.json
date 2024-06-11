@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "818940452556",
+    "project_id": "teste-firebase2-gpaiva",
+    "storage_bucket": "teste-firebase2-gpaiva.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:818940452556:android:6b652b594623fdf8b82c69",
+        "android_client_info": {
+          "package_name": "com.teste.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRwJOiLvLRqbe6tKPH3vjCha1ZlAvlVaI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
